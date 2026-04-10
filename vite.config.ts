@@ -4,8 +4,8 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // GitHub Pages 部署在子路径 /ai/ 下
-  base: '/ai/',
+  // 默认用于根路径部署（EdgeOne Pages 等）。GitHub Pages 可通过 VITE_BASE=/ai/ 覆盖。
+  base: process.env.VITE_BASE ?? '/',
   plugins: [vue()],
   resolve: {
     alias: {
