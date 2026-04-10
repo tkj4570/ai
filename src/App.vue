@@ -18,7 +18,10 @@ const {
   <main class="page">
     <section class="card">
       <header class="header">
-        <h1 class="title">天气查询</h1>
+        <h1 class="title">
+          <span class="title-badge" aria-hidden="true">天气</span>
+          天气查询
+        </h1>
         <p class="subtitle">
           输入城市名称：优先 One Call 3.0（8 日）；未订阅时自动使用免费 2.5 接口并按日汇总
         </p>
@@ -111,19 +114,45 @@ const {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: radial-gradient(1200px 700px at 20% 10%, #e8f3ff 0%, #f7f8fb 45%, #f7f8fb 100%);
-  color: #0f172a;
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(255, 208, 102, 0.75) 0%, rgba(255, 208, 102, 0) 55%),
+    radial-gradient(900px 520px at 85% 18%, rgba(130, 210, 255, 0.85) 0%, rgba(130, 210, 255, 0) 58%),
+    radial-gradient(1000px 700px at 40% 90%, rgba(196, 255, 203, 0.8) 0%, rgba(196, 255, 203, 0) 62%),
+    linear-gradient(180deg, #eaf7ff 0%, #fff8e8 52%, #f6fffb 100%);
+  color: #0b1b2a;
 }
 
 .card {
   width: 100%;
   max-width: 720px;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 16px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.86);
+  border: 3px solid rgba(11, 27, 42, 0.1);
+  border-radius: 22px;
   padding: 20px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  box-shadow:
+    0 20px 0 rgba(11, 27, 42, 0.06),
+    0 22px 50px rgba(11, 27, 42, 0.18);
+  overflow: hidden;
+}
+
+.card::before,
+.card::after {
+  content: '';
+  position: absolute;
+  inset: -120px -160px auto auto;
+  width: 320px;
+  height: 320px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 208, 102, 0.75), rgba(255, 208, 102, 0));
+  pointer-events: none;
+}
+
+.card::after {
+  inset: auto auto -180px -220px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle at 40% 40%, rgba(130, 210, 255, 0.55), rgba(130, 210, 255, 0));
 }
 
 .header {
@@ -131,15 +160,33 @@ const {
 }
 
 .title {
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
   line-height: 1.2;
   margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.title-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd066 0%, #ffb703 100%);
+  border: 2px solid rgba(11, 27, 42, 0.12);
+  box-shadow: 0 6px 0 rgba(11, 27, 42, 0.08);
+  font-size: 12px;
+  font-weight: 850;
 }
 
 .subtitle {
   margin: 8px 0 0;
   font-size: 13px;
-  color: rgba(15, 23, 42, 0.7);
+  color: rgba(11, 27, 42, 0.72);
 }
 
 .form {
@@ -160,26 +207,44 @@ const {
   width: 100%;
   height: 40px;
   padding: 0 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(15, 23, 42, 0.18);
-  background: white;
+  border-radius: 14px;
+  border: 2px solid rgba(11, 27, 42, 0.14);
+  background: rgba(255, 255, 255, 0.92);
   outline: none;
+  box-shadow: 0 8px 0 rgba(11, 27, 42, 0.06);
 }
 
 .input:focus {
-  border-color: rgba(37, 99, 235, 0.7);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  border-color: rgba(0, 153, 255, 0.65);
+  box-shadow:
+    0 8px 0 rgba(11, 27, 42, 0.06),
+    0 0 0 6px rgba(0, 153, 255, 0.14);
 }
 
 .button {
   height: 40px;
   padding: 0 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(37, 99, 235, 0.22);
-  background: #2563eb;
+  border-radius: 14px;
+  border: 2px solid rgba(11, 27, 42, 0.14);
+  background: linear-gradient(180deg, #4cc9f0 0%, #4895ef 55%, #4361ee 100%);
   color: white;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 10px 0 rgba(11, 27, 42, 0.12);
+  transform: translateY(0);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    filter 120ms ease;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.02);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 8px 0 rgba(11, 27, 42, 0.12);
 }
 
 .button:disabled {
@@ -211,28 +276,30 @@ const {
 .error {
   margin: 12px 0 0;
   padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.18);
-  color: #b91c1c;
+  border-radius: 14px;
+  background: rgba(255, 126, 126, 0.14);
+  border: 2px solid rgba(255, 126, 126, 0.35);
+  color: rgba(135, 16, 16, 0.96);
   font-size: 13px;
+  box-shadow: 0 8px 0 rgba(11, 27, 42, 0.06);
 }
 
 .notice {
   margin: 12px 0 0;
   padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(37, 99, 235, 0.08);
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  color: #1e3a8a;
+  border-radius: 14px;
+  background: rgba(130, 210, 255, 0.22);
+  border: 2px solid rgba(0, 153, 255, 0.24);
+  color: rgba(11, 27, 42, 0.88);
   font-size: 13px;
   line-height: 1.45;
+  box-shadow: 0 8px 0 rgba(11, 27, 42, 0.06);
 }
 
 .result {
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  border-top: 2px dashed rgba(11, 27, 42, 0.14);
 }
 
 .section-label {
@@ -256,9 +323,10 @@ const {
 
 .item {
   padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(255, 255, 255, 0.65);
+  border-radius: 16px;
+  border: 2px solid rgba(11, 27, 42, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 0 rgba(11, 27, 42, 0.06);
 }
 
 .key {
@@ -275,14 +343,15 @@ const {
 .forecast {
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  border-top: 2px dashed rgba(11, 27, 42, 0.14);
 }
 
 .table-wrap {
   overflow-x: auto;
-  border-radius: 12px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(255, 255, 255, 0.55);
+  border-radius: 16px;
+  border: 2px solid rgba(11, 27, 42, 0.1);
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 10px 0 rgba(11, 27, 42, 0.06);
 }
 
 .table {
@@ -295,7 +364,7 @@ const {
 .table td {
   padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  border-bottom: 1px dashed rgba(11, 27, 42, 0.12);
   white-space: nowrap;
 }
 
